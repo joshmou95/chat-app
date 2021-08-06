@@ -22,17 +22,7 @@ export default class Start extends React.Component {
           backgroundColor: '#FFFFFF'
         }}> 
           <TextInput
-            style={{
-              height: 50, 
-              borderColor: 'gray', 
-              borderWidth: 1,
-              margin: 15, 
-              padding: 10,
-              fontSize: 16,
-              fontWeight: '300',
-              color: '#757083',
-              opacity: .5
-              }}
+            style={styles.input}
             onChangeText={(name) => this.setState({name})}
             value={this.state.name}
             placeholder='Your name'
@@ -75,14 +65,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'steelblue',
     height: '100%'
   },
   title: {
     fontSize: 45,
     fontWeight: '600',
     color: '#FFFFFF',
-    height: 300
+    height: 380
   },
   button: {
     alignSelf: "center",
@@ -95,6 +84,18 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  input: {
+    height: 60, 
+    borderColor: 'gray', 
+    borderWidth: 2,
+    margin: 20, 
+    padding: 15,
+    fontSize: 16,
+    fontWeight: '300',
+    color: '#757083',
+    opacity: .5
+  },
 });
