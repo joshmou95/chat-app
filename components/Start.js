@@ -12,17 +12,12 @@ export default class Start extends React.Component {
     return (
       <View style={styles.container}>
         <ImageBackground
+          style={styles.image}
           source={require('../assets/Background_Image.png') }
           resizeMode='cover'
-          style={styles.image}
-          >
+        >
           <Text style={styles.title}>Chat App</Text>
-          <View style={{
-            width: '88%',
-            height: '44%',
-            backgroundColor: '#FFFFFF',
-            marginBottom: 20
-            }}> 
+          <View style={styles.options}> 
             <TextInput
               style={styles.input}
               onChangeText={(name) => this.setState({name})}
@@ -30,20 +25,10 @@ export default class Start extends React.Component {
               placeholder='Your name'
             />
             <Text
-              style={{
-                fontSize: 16,
-                fontWeight: '300',
-                color: '#757083',
-                opacity: 1,
-                marginTop: 10,
-                marginLeft: 20
-              }}
-              >Choose Background Color:</Text>
-              <View style={{
-                flexDirection: 'row',
-                marginTop: 10,
-                marginLeft: 20
-              }}>              
+              style={styles.colorText}
+              >Choose Background Color:
+            </Text>
+            <View style={styles.colorRow}>              
               <TouchableOpacity style={[
                 styles.background,
                 {backgroundColor: '#090C08'}
@@ -64,7 +49,7 @@ export default class Start extends React.Component {
                 {backgroundColor: '#B9C6AE'}
               ]}
               />
-              </View>
+            </View>
               <TouchableOpacity
                 style={styles.button}
                 title="Start Chatting"
@@ -92,12 +77,58 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
   },
+  image: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   title: {
     fontSize: 45,
     fontWeight: '600',
     color: '#FFFFFF',
-    marginBottom: 'auto',
-    marginTop: 75
+    marginTop: 50,
+    marginBottom: 'auto'
+  },
+  options: {
+    height: '44%',
+    width: '88%',
+    backgroundColor: '#FFFFFF',
+    marginBottom: 40,
+    padding: 5
+  },
+  input: {
+    height: 60, 
+    alignSelf: 'center',
+    borderColor: 'gray', 
+    borderWidth: 2,
+    width: '88%',
+    marginTop: 15, 
+    padding: 15,
+    fontSize: 16,
+    fontWeight: '300',
+    color: '#757083',
+    opacity: .5
+  },
+  colorText: {
+    fontSize: 16,
+    fontWeight: '300',
+    color: '#757083',
+    opacity: 1,
+    marginTop: 'auto',
+    marginLeft: 20
+  },
+  colorRow: {
+    flexDirection: 'row',
+    marginLeft: 20
+  },
+  background: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginTop: 15,
+    marginRight: 25,
+    
   },
   button: {
     alignSelf: "center",
@@ -107,31 +138,11 @@ const styles = StyleSheet.create({
     height: 60,
     padding: 20,
     alignItems: 'center',
-    marginTop: 30
+    marginTop: 'auto', 
+    marginBottom: 20
   },
-  image: {
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  input: {
-    height: 60, 
-    borderColor: 'gray', 
-    borderWidth: 2,
-    margin: 20, 
-    padding: 15,
-    fontSize: 16,
-    fontWeight: '300',
-    color: '#757083',
-    opacity: .5
-  },
-  background: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 25
-}
+  
+  
 });
 
 // const Start = (props) => {
