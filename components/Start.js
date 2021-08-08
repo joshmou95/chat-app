@@ -21,6 +21,7 @@ export default class Start extends React.Component {
             width: '88%',
             height: '44%',
             backgroundColor: '#FFFFFF',
+            marginBottom: 20
             }}> 
             <TextInput
               style={styles.input}
@@ -34,9 +35,36 @@ export default class Start extends React.Component {
                 fontWeight: '300',
                 color: '#757083',
                 opacity: 1,
-                margin: 15
+                marginTop: 10,
+                marginLeft: 20
               }}
               >Choose Background Color:</Text>
+              <View style={{
+                flexDirection: 'row',
+                marginTop: 10,
+                marginLeft: 20
+              }}>              
+              <TouchableOpacity style={[
+                styles.background,
+                {backgroundColor: '#090C08'}
+              ]}
+              />
+              <TouchableOpacity style={[
+                styles.background,
+                {backgroundColor: '#474056'}
+              ]}
+              />
+              <TouchableOpacity style={[
+                styles.background,
+                {backgroundColor: '#8A95A5'}
+              ]}
+              />
+              <TouchableOpacity style={[
+                styles.background,
+                {backgroundColor: '#B9C6AE'}
+              ]}
+              />
+              </View>
               <TouchableOpacity
                 style={styles.button}
                 title="Start Chatting"
@@ -63,22 +91,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    // height: '100%'
   },
   title: {
     fontSize: 45,
     fontWeight: '600',
     color: '#FFFFFF',
-    height: 380
+    marginBottom: 'auto',
+    marginTop: 75
   },
   button: {
     alignSelf: "center",
     backgroundColor: "#757083",
     color: '#FFFFFF',
     width: '88%',
-    height: 50,
-    padding: 15,
-    alignItems: 'center'
+    height: 60,
+    padding: 20,
+    alignItems: 'center',
+    marginTop: 30
   },
   image: {
     width: '100%',
@@ -97,6 +126,12 @@ const styles = StyleSheet.create({
     color: '#757083',
     opacity: .5
   },
+  background: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 25
+}
 });
 
 // const Start = (props) => {
