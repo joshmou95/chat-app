@@ -28,7 +28,7 @@ export default class Chat extends React.Component {
           fontSize: 20,
           fontWeight: '600'
         }}
-        >Hello Chat!</Text>
+        >Hello {this.props.route.params.name}!</Text>
       </View>
     )
   }
