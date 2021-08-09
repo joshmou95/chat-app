@@ -5,7 +5,10 @@ import { useState } from 'react/cjs/react.development';
 export default class Start extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { name: '' };
+    this.state = { 
+      name: '',
+      backColor: '#757083'
+    };
   }
 
   render() {
@@ -33,28 +36,32 @@ export default class Start extends React.Component {
                 styles.background,
                 {backgroundColor: '#090C08'}
               ]}
+              onPress={() => this.setState({ backColor: '#090C08'})}
               />
               <TouchableOpacity style={[
                 styles.background,
                 {backgroundColor: '#474056'}
               ]}
+                onPress={() => this.setState({ backColor: '#474056'})}
               />
               <TouchableOpacity style={[
                 styles.background,
                 {backgroundColor: '#8A95A5'}
               ]}
+                onPress={() => this.setState({ backColor: '#8A95A5'})}
               />
               <TouchableOpacity style={[
                 styles.background,
                 {backgroundColor: '#B9C6AE'}
               ]}
+                onPress={() => this.setState({ backColor: '#B9C6AE'})}
               />
             </View>
               <TouchableOpacity
                 style={styles.button}
                 title="Start Chatting"
                 onPress={() => 
-                  this.props.navigation.navigate('Chat', { name: this.state.name })}
+                  this.props.navigation.navigate('Chat', { name: this.state.name, backColor: this.state.backColor })}
               >
               <Text
                 style={{
