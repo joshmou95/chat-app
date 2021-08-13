@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, TextInput, StyleSheet, TouchableOpacity, ImageBackground  } from 'react-native';
+import { View, Text, Button, Platform, TextInput, StyleSheet, TouchableOpacity, ImageBackground, KeyboardAvoidingView } from 'react-native';
 import { useState } from 'react/cjs/react.development';
 
 export default class Start extends React.Component {
@@ -60,6 +60,10 @@ export default class Start extends React.Component {
               <TouchableOpacity
                 style={styles.button}
                 title="Start Chatting"
+                accessible={true}
+                accessibilityLabel="Start Chatting"
+                accessibilityHint="Opens the chat window"
+                accessibilityRole="button"
                 onPress={() => 
                   this.props.navigation.navigate('Chat', { name: this.state.name, backColor: this.state.backColor })}
               >
@@ -73,6 +77,7 @@ export default class Start extends React.Component {
               </TouchableOpacity>
           </View>
         </ImageBackground>
+        { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null}
       </View>
     )
   }
@@ -148,8 +153,6 @@ const styles = StyleSheet.create({
     marginTop: 'auto', 
     marginBottom: 20
   },
-  
-  
 });
 
 // const Start = (props) => {
