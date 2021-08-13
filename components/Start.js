@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
   options: {
     height: '44%',
     width: '88%',
+    minHeight: 260,
     backgroundColor: '#FFFFFF',
     marginBottom: 40,
     padding: 5
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
   },
   colorRow: {
     flexDirection: 'row',
-    marginLeft: 20
+    marginLeft: 20,
   },
   background: {
     width: 40,
