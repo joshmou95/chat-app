@@ -9,23 +9,22 @@ export default class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      name: '',
-      backColor: this.props.route.params.backColor,
       messages: [],
-    };
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC7PbBhWLjdf4AJ32NmP9wBmodufuXFphg",
-      authDomain: "test-project-833d6.firebaseapp.com",
-      projectId: "test-project-833d6",
-      storageBucket: "test-project-833d6.appspot.com",
-      messagingSenderId: "230622143660",
-      appId: "1:230622143660:web:d453d8caee7863daf2eb09",
-      measurementId: "G-VJBGHDTQRM"
+      name: '',
+      uid: 0,
+      backColor: this.props.route.params.backColor,
     };
 
     if (!firebase.apps.length){
-      firebase.initializeApp(firebaseConfig);
+      firebase.initializeApp({
+        apiKey: "AIzaSyC7PbBhWLjdf4AJ32NmP9wBmodufuXFphg",
+        authDomain: "test-project-833d6.firebaseapp.com",
+        projectId: "test-project-833d6",
+        storageBucket: "test-project-833d6.appspot.com",
+        messagingSenderId: "230622143660",
+        appId: "1:230622143660:web:d453d8caee7863daf2eb09",
+        measurementId: "G-VJBGHDTQRM",
+      });
     }
 
     this.referenceChatMessages = firebase.firestore().collection('messages');
@@ -36,9 +35,30 @@ export default class Chat extends React.Component {
     let name = this.props.route.params.name;
     this.props.navigation.setOptions({ title: name });
 
-    this.referenceChatMessages = firebase.firestore().collection('messages');
+    this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        firebase.auth().signInAnonymously();
+      }
+      this.setState({
+        uid: user.uid,
+        messages: [],
+      });
 
-    this.unsubscribe = this.referenceChatMessages.onSnapshot(this.onCollectionUpdate);
+      this.referenceChatMessages = firebase
+        .firestore()
+        .collection('messages');
+
+      this.unsubscribe = this.referenceChatMessages
+        .orderBy("createdAt", "desc")
+        .onSnapshot(this.onCollectionUpdate);
+
+      // this.unsubscribe = this.referenceChatMessages.onSnapshot(this.onCollectionUpdate);
+        
+    });
+
+    
+
+    
 
     // this.setState({
     //   messages: [
@@ -64,6 +84,7 @@ export default class Chat extends React.Component {
 
   componentWillUnmount() {
     this.unsubscribe();
+    this.authUnsubscribe();
   }
 
   onCollectionUpdate = (querySnapshot) => {
@@ -78,6 +99,9 @@ export default class Chat extends React.Component {
         createdAt: data.createdAt.toDate(),
         user: data.user,
       });
+      this.setState({
+        messages
+      })
     });
   }
 
@@ -85,14 +109,24 @@ export default class Chat extends React.Component {
   onSend(messages = []) {
     this.setState((previousState) => ({
       messages: GiftedChat.append(previousState.messages, messages),
-    }));
+    }),
+      () => {
+        this.addMessage();
+      }
+    );
   }
 
   // implement function with button??
   addMessages() {
+    const message = this.state.messages[0];
     this.referenceChatMessages.add({
-      messages
-    })
+      _id: message._id,
+      createdAt: message.createdAt,
+      text: message.text || null,
+      user: message.user,
+      image: message.image || null,
+      location: message.location || null
+    });
   }
 
   renderBubble(props) {
@@ -118,9 +152,7 @@ export default class Chat extends React.Component {
           renderBubble={this.renderBubble.bind(this)}
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
-          user={{
-            _id: 1,
-          }}
+          user={this.state.user}
         />
         { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null}
       </View>
