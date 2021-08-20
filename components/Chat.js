@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Platform, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Platform, KeyboardAvoidingView, LogBox } from 'react-native';
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 
 const firebase = require('firebase');
@@ -10,8 +10,13 @@ export default class Chat extends React.Component {
     super(props);
     this.state = { 
       messages: [],
-      name: '',
+      // name: '',
       uid: 0,
+      user: {
+        _id: '',
+        name: '',
+        avatar: '',
+      },
       backColor: this.props.route.params.backColor,
     };
 
@@ -29,6 +34,14 @@ export default class Chat extends React.Component {
 
     this.referenceChatMessages = firebase.firestore().collection('messages');
 
+    // Ignores certain warning messages in console
+    LogBox.ignoreLogs([
+      'Setting a timer',
+      'undefined',
+      'Animated.event now requires a second argument for options',
+    ]);
+    
+
   }
 
   componentDidMount() {
@@ -42,6 +55,11 @@ export default class Chat extends React.Component {
       this.setState({
         uid: user.uid,
         messages: [],
+        user: {
+          _id: user.uid,
+          name: name,
+          avatar: 'https://placeimg.com/140/140/any',
+        }
       });
 
       this.referenceChatMessages = firebase
@@ -56,30 +74,7 @@ export default class Chat extends React.Component {
         
     });
 
-    
-
-    
-
-    // this.setState({
-    //   messages: [
-    //     {
-    //       _id: 1,
-    //       text: "Hello developer",
-    //       createdAt: new Date(),
-    //       user: {
-    //         _id: 2,
-    //         name: "React Native",
-    //         avatar: "https://placeimg.com/140/140/any",
-    //       },
-    //     },
-    //     {
-    //       _id: 2, 
-    //       text: `${this.props.route.params.name} entered the chat`,
-    //       createdAt: new Date(),
-    //       system: true,
-    //     },
-    //   ],
-    // });
+  
   }
 
   componentWillUnmount() {
@@ -111,7 +106,7 @@ export default class Chat extends React.Component {
       messages: GiftedChat.append(previousState.messages, messages),
     }),
       () => {
-        this.addMessage();
+        this.addMessages();
       }
     );
   }
@@ -121,11 +116,10 @@ export default class Chat extends React.Component {
     const message = this.state.messages[0];
     this.referenceChatMessages.add({
       _id: message._id,
+      uid: this.state.uid,
       createdAt: message.createdAt,
       text: message.text || null,
       user: message.user,
-      image: message.image || null,
-      location: message.location || null
     });
   }
 
