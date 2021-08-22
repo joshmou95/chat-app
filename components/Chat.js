@@ -48,33 +48,29 @@ export default class Chat extends React.Component {
     let name = this.props.route.params.name;
     this.props.navigation.setOptions({ title: name });
 
+    // authenticates user via Firebase
     this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
         firebase.auth().signInAnonymously();
       }
+      // Add user to state
       this.setState({
         uid: user.uid,
-        messages: [],
         user: {
           _id: user.uid,
           name: name,
           avatar: 'https://placeimg.com/140/140/any',
-        }
+        },
+        messages: [],
       });
-
       this.referenceChatMessages = firebase
         .firestore()
-        .collection('messages');
+        .collection('messages')
 
       this.unsubscribe = this.referenceChatMessages
         .orderBy("createdAt", "desc")
         .onSnapshot(this.onCollectionUpdate);
-
-      // this.unsubscribe = this.referenceChatMessages.onSnapshot(this.onCollectionUpdate);
-        
     });
-
-  
   }
 
   componentWillUnmount() {
