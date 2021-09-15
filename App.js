@@ -2,9 +2,11 @@ import React from 'react';
 // import the screens we want to navigate
 import Start from './components/Start';
 import Chat from './components/Chat';
+
 import { StyleSheet, Text, View } from 'react-native';
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
+
 
 // import React Navigation
 import { NavigationContainer } from '@react-navigation/native';
