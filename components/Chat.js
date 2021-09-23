@@ -3,6 +3,7 @@ import { View, Text, Platform, KeyboardAvoidingView, LogBox } from 'react-native
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
+import CustomActions from './CustomActions';
 
 const firebase = require('firebase');
 require('firebase/firestore');
@@ -125,11 +126,13 @@ export default class Chat extends React.Component {
     // add new messages to firebase onSend
     const message = this.state.messages[0];
     this.referenceChatMessages.add({
+      // uid: this.state.uid,
       _id: message._id,
-      uid: this.state.uid,
-      createdAt: message.createdAt,
       text: message.text || null,
+      createdAt: message.createdAt,
       user: message.user,
+      image: message.image || null,
+      location: message.location || null,
     });
   }
 
@@ -145,7 +148,8 @@ export default class Chat extends React.Component {
   onSend(messages = []) {
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
-    }), () => {
+    }), 
+      () => {
         this.addMessages();
         this.saveMessages();
       }
