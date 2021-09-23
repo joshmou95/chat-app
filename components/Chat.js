@@ -193,6 +193,10 @@ export default class Chat extends React.Component {
       );
     }
   }
+  
+  renderCustomActions = (props) => {
+    return <CustomActions {...props} />;
+  }
 
   render() {
     return (
@@ -206,6 +210,7 @@ export default class Chat extends React.Component {
           renderInputToolbar={this.renderInputToolbar}
           onSend={(messages) => this.onSend(messages)}
           user={this.state.user}
+          renderActions={this.renderCustomActions}
         />
         { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null}
       </View>
