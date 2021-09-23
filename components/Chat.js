@@ -3,6 +3,7 @@ import { View, Text, Platform, KeyboardAvoidingView, LogBox } from 'react-native
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
+import CustomActions from './CustomActions';
 
 const firebase = require('firebase');
 require('firebase/firestore');
