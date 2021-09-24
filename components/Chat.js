@@ -126,11 +126,13 @@ export default class Chat extends React.Component {
     // add new messages to firebase onSend
     const message = this.state.messages[0];
     this.referenceChatMessages.add({
+      // uid: this.state.uid,
       _id: message._id,
-      uid: this.state.uid,
-      createdAt: message.createdAt,
       text: message.text || null,
+      createdAt: message.createdAt,
       user: message.user,
+      image: message.image || null,
+      location: message.location || null,
     });
   }
 
@@ -146,7 +148,8 @@ export default class Chat extends React.Component {
   onSend(messages = []) {
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
-    }), () => {
+    }), 
+      () => {
         this.addMessages();
         this.saveMessages();
       }
