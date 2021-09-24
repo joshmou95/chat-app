@@ -22,7 +22,7 @@ export default class CustomActions extends React.Component {
       if (!result.cancelled) {
         this.setState({
           image: result
-        });  
+        });
       }
     }
   }
@@ -30,16 +30,16 @@ export default class CustomActions extends React.Component {
   takePhoto = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       await Camera.requestPermissionsAsync();
- 
+
     if(status === 'granted') {
       let result = await ImagePicker.launchCameraAsync({
         mediaTypes: 'Images',
       }).catch(error => console.log(error));
- 
+
       if (!result.cancelled) {
         this.setState({
           image: result
-        });  
+        });
       }
     }
   }
@@ -60,9 +60,9 @@ export default class CustomActions extends React.Component {
 
   onActionPress = () => {
       const options = [
-          'Choose From Library', 
-          'Take Picture', 
-          'Send Location', 
+          'Choose From Library',
+          'Take Picture',
+          'Send Location',
           'Cancel'];
       const cancelButtonIndex = options.length - 1;
       // pass data through component tree with context
@@ -90,8 +90,8 @@ export default class CustomActions extends React.Component {
 
   render() {
       return (
-        <TouchableOpacity 
-        style={[styles.container]} 
+        <TouchableOpacity
+        style={[styles.container]}
         onPress={this.onActionPress}>
           <View style={[styles.wrapper, this.props.wrapperStyle]}>
             <Text style={[styles.iconText, this.props.iconTextStyle]}>+</Text>
