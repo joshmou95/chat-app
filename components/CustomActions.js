@@ -13,19 +13,23 @@ export default class CustomActions extends React.Component {
   imagePicker = async () => {
     // expo permission
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if(status === 'granted') {
-      // pick an image
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      }).catch(error => console.log(error));
-      // cancelled process
-      if (!result.cancelled) {
-        this.setState({
-          image: result
-        });
+    try { 
+      if(status === 'granted') {
+        // pick an image
+        const result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        }).catch((error) => console.log(error));
+        // cancelled process
+        if (!result.cancelled) {
+          this.setState({
+            image: result
+          });
+        }
       }
+    } catch (error) {
+      console.log(error.message);
     }
-  }
+  };
 
   takePhoto = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -33,7 +37,7 @@ export default class CustomActions extends React.Component {
 
     if(status === 'granted') {
       let result = await ImagePicker.launchCameraAsync({
-        mediaTypes: 'Images',
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
       }).catch(error => console.log(error));
 
       if (!result.cancelled) {
