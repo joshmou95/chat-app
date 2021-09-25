@@ -4,11 +4,8 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Animated } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
-import MapView from 'react-native-maps';
-import { Audio } from 'expo-av';
 import { Camera } from 'expo-camera';
 import firebase from 'firebase';
-import { firestore } from 'firebase';
 
 export default class CustomActions extends React.Component {
 
