@@ -3,9 +3,8 @@ import React from 'react';
 import Start from './components/Start';
 import Chat from './components/Chat';
 
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, } from 'react-native';
 import 'react-native-gesture-handler';
-import { StatusBar } from 'expo-status-bar';
 
 
 // import React Navigation
