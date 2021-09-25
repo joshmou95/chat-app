@@ -57,19 +57,24 @@ https://docs.expo.dev/get-started/installation/
 npm install --global-cli
 ```
 
-Start by cloning this repository
+Clone this repository to your directory
+```
+git clone https://github.com/joshmou95/chat-app.git
+```
 
+Navigate to your directory and install dependencies
 ```
 npm install
 ```
 
-To start the project
-
+Start the project
 ```
 expo start
 ```
 
-Scan the QR code with Expo Go (Android) or the Camera app (iOS)
+Scan the QR code with Expo Go (Android) or the Camera app (iOS)<br>
+Run on iOS Emulator or Andriod Studio to chat back and forth
+
 
 
 
