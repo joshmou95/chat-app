@@ -1,9 +1,11 @@
 import React from 'react'
-import { View, Text, Platform, KeyboardAvoidingView, LogBox } from 'react-native';
+import { View, Text, Platform, KeyboardAvoidingView, LogBox, Animated } from 'react-native';
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import CustomActions from './CustomActions';
+import * as Location from 'expo-location';
+import MapView from 'react-native-maps';
 
 const firebase = require('firebase');
 require('firebase/firestore');
@@ -21,6 +23,8 @@ export default class Chat extends React.Component {
       },
       backColor: this.props.route.params.backColor,
       isConnected: false,
+      image: null, 
+      location: null
     };
 
     if (!firebase.apps.length){
@@ -128,7 +132,7 @@ export default class Chat extends React.Component {
     this.referenceChatMessages.add({
       // uid: this.state.uid,
       _id: message._id,
-      text: message.text || null,
+      text: message.text || "",
       createdAt: message.createdAt,
       user: message.user,
       image: message.image || null,
@@ -146,7 +150,8 @@ export default class Chat extends React.Component {
   }
 
   onSend(messages = []) {
-    this.setState(previousState => ({
+    this.setState(
+      (previousState) => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }), 
       () => {
@@ -161,18 +166,21 @@ export default class Chat extends React.Component {
     // go through each document
     querySnapshot.forEach((doc) => {
       // get the QueryDocumentSnapshot's data
-      let data = doc.data();
+      const data = doc.data();
       messages.push({
         _id: data._id,
-        text: data.text,
+        text: data.text || "",
         createdAt: data.createdAt.toDate(),
         user: data.user,
+        image: data.image || null,
+        location: data.location || null,
       });
-      this.setState({
-        messages
-      })
     });
-  }
+
+    this.setState({
+      messages,
+    });
+  };
 
   renderBubble(props) {
     return (
@@ -187,19 +195,40 @@ export default class Chat extends React.Component {
     )
   }
 
-  renderInputToolbar = props => {
-    if (this.state.isConnected == false) {
+  // hides inputbar when offline
+  renderInputToolbar = (props) => {
+    console.log("renderInputToolbar ---> props", props.isConnected);
+    if (props.isConnected == false) {
+      return <InputToolbar {...props} />;
     } else {
-      return(
-        <InputToolbar
-        {...props}
-        />
-      );
+      return <InputToolbar {...props} />;
     }
   }
   
   renderCustomActions = (props) => {
     return <CustomActions {...props} />;
+  }
+
+  renderCustomView (props) {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={{
+            width: 150,
+            height: 100,
+            borderRadius: 13,
+            margin: 3}}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />  
+      );
+    }
+    return null;
   }
 
   render() {
@@ -209,12 +238,15 @@ export default class Chat extends React.Component {
         backgroundColor: this.state.backColor
         }}>
         <GiftedChat
-          renderBubble={this.renderBubble.bind(this)}
           messages={this.state.messages}
+          isConnected={this.state.isConnected}
+          renderBubble={this.renderBubble.bind(this)}
           renderInputToolbar={this.renderInputToolbar}
+          renderActions={this.renderCustomActions}
+          renderCustomView={this.renderCustomView}
           onSend={(messages) => this.onSend(messages)}
           user={this.state.user}
-          renderActions={this.renderCustomActions}
+          
         />
         { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null}
       </View>
