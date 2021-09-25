@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Platform, KeyboardAvoidingView, LogBox, Animated } from 'react-native';
+import { View, Platform, KeyboardAvoidingView, LogBox, Animd } from 'react-native';
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
@@ -246,7 +246,6 @@ export default class Chat extends React.Component {
           renderCustomView={this.renderCustomView}
           onSend={(messages) => this.onSend(messages)}
           user={this.state.user}
-          
         />
         { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null}
       </View>
