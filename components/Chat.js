@@ -50,6 +50,7 @@ export default class Chat extends React.Component {
   }
 
   componentDidMount() {
+    // put user name on top of screen
     let name = this.props.route.params.name;
     this.props.navigation.setOptions({ title: name });
 
@@ -148,6 +149,7 @@ export default class Chat extends React.Component {
     }
   }
 
+  // update message state onSend
   onSend(messages = []) {
     this.setState(
       (previousState) => ({
@@ -175,7 +177,6 @@ export default class Chat extends React.Component {
         location: data.location || null,
       });
     });
-
     this.setState({
       messages,
     });
@@ -204,10 +205,12 @@ export default class Chat extends React.Component {
     }
   }
   
+  // send image and location actions
   renderCustomActions = (props) => {
     return <CustomActions {...props} />;
   }
 
+  // render location map view in message
   renderCustomView (props) {
     const { currentMessage } = props;
     if (currentMessage.location) {
