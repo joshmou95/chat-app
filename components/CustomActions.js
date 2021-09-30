@@ -1,7 +1,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Animated } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { Camera } from 'expo-camera';
@@ -9,18 +9,20 @@ import firebase from 'firebase';
 
 export default class CustomActions extends React.Component {
 
-  // use ImagePicker to get picture from medai library
+  // use ImagePicker to get picture from camera roll
   imagePicker = async () => {
-    // expo permission
+    // expo permission from camera roll
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     try { 
       if(status === 'granted') {
-        // pick an image
+        // Display the system UI for choosing an image or a video from the phone's library
         const result = await ImagePicker.launchImageLibraryAsync({
+          // Choose only images as an option
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
         }).catch((error) => console.log(error));
         // cancelled process
         if (!result.cancelled) {
+          // URI to the local image
           const imageUrl = await this.uploadImageFetch(result.uri);
           this.props.onSend({ image: imageUrl });
         }
@@ -37,12 +39,14 @@ export default class CustomActions extends React.Component {
       await Camera.requestPermissionsAsync();
     try {
       if(status === 'granted') {
+        // Display the system UI for taking a photo with the camera
         let result = await ImagePicker.launchCameraAsync({
           // set options to pick images only
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
         }).catch(error => console.log(error));
 
         if (!result.cancelled) {
+          // URI to the local image
           const imageUrl = await this.uploadImageFetch(result.uri);
           this.props.onSend({ image: imageUrl });
         }
@@ -55,10 +59,10 @@ export default class CustomActions extends React.Component {
   // Get location to send in a message
   getLocation = async () => {
     try {
-      // request permission to get location
+      // request permission to get location while the app is in the foreground
       const { status } = await Location.requestForegroundPermissionsAsync();
       if(status === 'granted') {
-        // get current position
+        // get one time delivery of current location
         let result = await Location.getCurrentPositionAsync(
           {}
         ).catch((error) => console.log(error));
@@ -79,6 +83,7 @@ export default class CustomActions extends React.Component {
   }
 
   // Get URL for Images that are uploaded to firebase storage
+  // Conver URI into a blob
   uploadImageFetch = async (uri) => {
     const blob = await new Promise((resolve, reject) => {
       // retrieve data from URL
