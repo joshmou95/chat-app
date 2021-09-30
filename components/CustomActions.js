@@ -9,6 +9,7 @@ import firebase from 'firebase';
 
 export default class CustomActions extends React.Component {
 
+  // use ImagePicker to get picture from medai library
   imagePicker = async () => {
     // expo permission
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -22,31 +23,28 @@ export default class CustomActions extends React.Component {
         if (!result.cancelled) {
           const imageUrl = await this.uploadImageFetch(result.uri);
           this.props.onSend({ image: imageUrl });
-          // this.setState({
-          //   image: result
-          // });
         }
       }
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message);   
     }
   };
 
+  // Use Camera to take picture ImagePicker to send
   takePhoto = async () => {
+    // request permissions for library and camera
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       await Camera.requestPermissionsAsync();
     try {
       if(status === 'granted') {
         let result = await ImagePicker.launchCameraAsync({
+          // set options to pick images only
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
         }).catch(error => console.log(error));
 
         if (!result.cancelled) {
           const imageUrl = await this.uploadImageFetch(result.uri);
           this.props.onSend({ image: imageUrl });
-          // this.setState({
-          //   image: result
-          // });
         }
       }
     } catch (error) {
@@ -54,10 +52,13 @@ export default class CustomActions extends React.Component {
     }
   };
 
+  // Get location to send in a message
   getLocation = async () => {
     try {
+      // request permission to get location
       const { status } = await Location.requestForegroundPermissionsAsync();
       if(status === 'granted') {
+        // get current position
         let result = await Location.getCurrentPositionAsync(
           {}
         ).catch((error) => console.log(error));
@@ -70,9 +71,6 @@ export default class CustomActions extends React.Component {
               latitude: result.coords.latitude,
             },
           });
-          // this.setState({
-          //   location: result
-          // });
         }
       }
     } catch (error) {
@@ -80,6 +78,7 @@ export default class CustomActions extends React.Component {
     }
   }
 
+  // Get URL for Images that are uploaded to firebase storage
   uploadImageFetch = async (uri) => {
     const blob = await new Promise((resolve, reject) => {
       // retrieve data from URL
@@ -111,8 +110,7 @@ export default class CustomActions extends React.Component {
     return await snapshot.ref.getDownloadURL();
   };
 
-
-
+  // Create options to send pictures from camera and library and location
   onActionPress = () => {
       const options = [
           'Choose From Library',
@@ -130,12 +128,15 @@ export default class CustomActions extends React.Component {
           switch (buttonIndex) {
             case 0:
               console.log('user wants to pick an image');
+              // pick image from library
               return this.imagePicker();
             case 1:
               console.log('user wants to take a photo');
+              // take photo and send
               return this.takePhoto();
             case 2:
               console.log('user wants to get their location');
+              // get current location and send
               return this.getLocation();
             default:
           }
