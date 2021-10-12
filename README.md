@@ -8,6 +8,7 @@ Testing can be done with Android Studio and iOS Emulator.
 ![chat app 2](https://user-images.githubusercontent.com/80426764/136886472-2acf5e88-96d1-4ff7-a6e5-6a179dcde7ff.png)
 
 <br>
+
 ## User Stories ##
 * As a new user, I want to be able to easily enter a chat room so I can quickly start talking to my friends and family.
 * As a user, I want to be able to send messages to my friends and family members to exchange the latest news.
