@@ -3,6 +3,8 @@
 Chat app for mobile devices using React Native, Expo, and Google Firestore Database. <br>
 The app will provide users with a chat interface and options to share images and their location. <br>
 Testing can be done with Android Studio and iOS Emulator. 
+![chat app 1](https://user-images.githubusercontent.com/80426764/136886025-d66d02ab-b20d-49ed-8a8d-03f197c23d4d.png)
+![chat app 2](https://user-images.githubusercontent.com/80426764/136886040-ed9f3090-e673-4d68-82d1-a3b931616f34.png)
 
 ## User Stories ##
 * As a new user, I want to be able to easily enter a chat room so I can quickly start talking to my friends and family.
